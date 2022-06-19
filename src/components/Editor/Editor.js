@@ -343,7 +343,42 @@ function Editor(props) {
       />
     </div>
   );
-
+  const technicalBody = (
+    <div className={styles.detail}>
+      <InputControl
+        label="Technical Skills"
+        value={values.technical}
+        placeholder="Enter your technical skills"
+        onChange={(event) =>
+          setValues((prev) => ({ ...prev, technical: event.target.value }))
+        }
+      />
+    </div>
+  );
+  const personalBody = (
+    <div className={styles.detail}>
+      <InputControl
+        label="Personal Skills"
+        value={values.personal}
+        placeholder="Enter your personal skills"
+        onChange={(event) =>
+          setValues((prev) => ({ ...prev, personal: event.target.value }))
+        }
+      />
+    </div>
+  );
+  const extraBody = (
+    <div className={styles.detail}>
+      <InputControl
+        label="Extra"
+        value={values.extra}
+        placeholder="Enter your Extra Add-on things"
+        onChange={(event) =>
+          setValues((prev) => ({ ...prev, extra: event.target.value }))
+        }
+      />
+    </div>
+  );
 
   const generateBody = () => {
     switch (sections[activeSectionKey]) {
@@ -361,8 +396,14 @@ function Editor(props) {
         return summaryBody;
       case sections.other:
         return otherBody;
-        case sections.interest:
-          return interestBody;
+      case sections.interest:
+        return interestBody;
+      case sections.technical:
+        return technicalBody;
+      case sections.personal:
+        return personalBody;
+        case sections.extra:
+          return extraBody;
       default:
         return null;
     }
@@ -506,6 +547,45 @@ function Editor(props) {
         }));
         break;
       }
+      case sections.technical: {
+        const tempDetail = values.technical;
+
+        props.setInformation((prev) => ({
+          ...prev,
+          [sections.technical]: {
+            ...prev[sections.technical],
+            detail: tempDetail,
+            sectionTitle,
+          },
+        }));
+        break;
+      }
+      case sections.personal: {
+        const tempDetail = values.personal;
+
+        props.setInformation((prev) => ({
+          ...prev,
+          [sections.personal]: {
+            ...prev[sections.personal],
+            detail: tempDetail,
+            sectionTitle,
+          },
+        }));
+        break;
+      }
+      case sections.extra: {
+        const tempDetail = values.extra;
+
+        props.setInformation((prev) => ({
+          ...prev,
+          [sections.extra]: {
+            ...prev[sections.extra],
+            detail: tempDetail,
+            sectionTitle,
+          },
+        }));
+        break;
+      }
     }
   };
 
@@ -575,8 +655,8 @@ function Editor(props) {
           ? [...activeInfo.details[0]?.points]
           : ""
         : activeInfo?.points
-        ? [...activeInfo.points]
-        : "",
+          ? [...activeInfo.points]
+          : "",
       title: activeInfo?.details
         ? activeInfo.details[0]?.title || ""
         : activeInfo?.detail?.title || "",
@@ -622,9 +702,8 @@ function Editor(props) {
       <div className={styles.header}>
         {Object.keys(sections)?.map((key) => (
           <div
-            className={`${styles.section} ${
-              activeSectionKey === key ? styles.active : ""
-            }`}
+            className={`${styles.section} ${activeSectionKey === key ? styles.active : ""
+              }`}
             key={key}
             onClick={() => setActiveSectionKey(key)}
           >
@@ -644,27 +723,26 @@ function Editor(props) {
         <div className={styles.chips}>
           {activeInformation?.details
             ? activeInformation?.details?.map((item, index) => (
-                <div
-                  className={`${styles.chip} ${
-                    activeDetailIndex === index ? styles.active : ""
+              <div
+                className={`${styles.chip} ${activeDetailIndex === index ? styles.active : ""
                   }`}
-                  key={item.title + index}
-                  onClick={() => setActiveDetailIndex(index)}
-                >
-                  <p>
-                    {sections[activeSectionKey]} {index + 1}
-                  </p>
-                  <X
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      handleDeleteDetail(index);
-                    }}
-                  />
-                </div>
-              ))
+                key={item.title + index}
+                onClick={() => setActiveDetailIndex(index)}
+              >
+                <p>
+                  {sections[activeSectionKey]} {index + 1}
+                </p>
+                <X
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    handleDeleteDetail(index);
+                  }}
+                />
+              </div>
+            ))
             : ""}
           {activeInformation?.details &&
-          activeInformation?.details?.length > 0 ? (
+            activeInformation?.details?.length > 0 ? (
             <div className={styles.new} onClick={handleAddNew}>
               +New
             </div>

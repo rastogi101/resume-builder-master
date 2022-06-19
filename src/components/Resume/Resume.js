@@ -29,6 +29,9 @@ const Resume = forwardRef((props, ref) => {
     summary: information[sections.summary],
     other: information[sections.other],
     interest: information[sections.interest],
+    technical: information[sections.technical],
+    personal: information[sections.personal],
+    extra: information[sections.extra],
   };
 
   const getFormattedDate = (value) => {
@@ -179,7 +182,7 @@ const Resume = forwardRef((props, ref) => {
               )}
               {item.college ? (
                 <p className={styles.subTitle}>
-                  <MapPin /> {props.information["Education"].details[0].college}
+                  <MapPin /> {item.college}
                 </p>
               ) : (
                 <span />
@@ -269,6 +272,51 @@ const Resume = forwardRef((props, ref) => {
         </div>
       </div>
     ),
+    [sections.technical]: (
+      <div
+        key={"technical"}
+        draggable
+        onDragOver={() => seTarget(info.technical?.id)}
+        onDragEnd={() => setSource(info.technical?.id)}
+        className={`${styles.section} ${info.technical?.sectionTitle ? "" : styles.hidden
+          }`}
+      >
+        <div className={styles.sectionTitle}>{info.technical?.sectionTitle}</div>
+        <div className={styles.content}>
+          <p className={styles.overview}>{info?.technical?.detail}</p>
+        </div>
+      </div>
+    ),
+    [sections.personal]: (
+      <div
+        key={"personal"}
+        draggable
+        onDragOver={() => seTarget(info.personal?.id)}
+        onDragEnd={() => setSource(info.personal?.id)}
+        className={`${styles.section} ${info.personal?.sectionTitle ? "" : styles.hidden
+          }`}
+      >
+        <div className={styles.sectionTitle}>{info.personal?.sectionTitle}</div>
+        <div className={styles.content}>
+          <p className={styles.overview}>{info?.personal?.detail}</p>
+        </div>
+      </div>
+    ),
+    [sections.extra]: (
+      <div
+        key={"extra"}
+        draggable
+        onDragOver={() => seTarget(info.extra?.id)}
+        onDragEnd={() => setSource(info.extra?.id)}
+        className={`${styles.section} ${info.extra?.sectionTitle ? "" : styles.hidden
+          }`}
+      >
+        <div className={styles.sectionTitle}>{info.extra?.sectionTitle}</div>
+        <div className={styles.content}>
+          <p className={styles.overview}>{info?.extra?.detail}</p>
+        </div>
+      </div>
+    ),
   }; 
 
   const swapSourceTarget = (source, target) => {
@@ -300,8 +348,8 @@ const Resume = forwardRef((props, ref) => {
 
   useEffect(() => {
     setColumns([
-      [sections.project, sections.education, sections.summary, sections.interest],
-      [sections.workExp, sections.achievement, sections.other],
+      [sections.project, sections.education, sections.summary, sections.interest, sections.personal],
+      [sections.workExp, sections.achievement, sections.other, sections.technical , sections.extra],
     ]);
   }, []);
 
@@ -315,6 +363,10 @@ const Resume = forwardRef((props, ref) => {
 
     container.style.setProperty("--color", props.activeColor);
   }, [props.activeColor]);
+
+  useEffect(() => {
+    console.log(props)
+  },[props])
 
   return (
     <div ref={ref}>
