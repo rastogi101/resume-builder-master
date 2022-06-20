@@ -32,6 +32,7 @@ const Resume = forwardRef((props, ref) => {
     technical: information[sections.technical],
     personal: information[sections.personal],
     extra: information[sections.extra],
+    extras: information[sections.extras],
   };
 
   const getFormattedDate = (value) => {
@@ -317,6 +318,21 @@ const Resume = forwardRef((props, ref) => {
         </div>
       </div>
     ),
+    [sections.extras]: (
+      <div
+        key={"extras"}
+        draggable
+        onDragOver={() => seTarget(info.extras?.id)}
+        onDragEnd={() => setSource(info.extras?.id)}
+        className={`${styles.section} ${info.extras?.sectionTitle ? "" : styles.hidden
+          }`}
+      >
+        <div className={styles.sectionTitle}>{info.extras?.sectionTitle}</div>
+        <div className={styles.content}>
+          <p className={styles.overview}>{info?.extras?.detail}</p>
+        </div>
+      </div>
+    ),
   }; 
 
   const swapSourceTarget = (source, target) => {
@@ -349,7 +365,7 @@ const Resume = forwardRef((props, ref) => {
   useEffect(() => {
     setColumns([
       [sections.project, sections.education, sections.summary, sections.interest, sections.personal],
-      [sections.workExp, sections.achievement, sections.other, sections.technical , sections.extra],
+      [sections.workExp, sections.achievement, sections.other, sections.technical , sections.extra,sections.extras],
     ]);
   }, []);
 

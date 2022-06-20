@@ -20,7 +20,8 @@ function Body() {
     interest: "Interest Area",
     technical: "Technical Skills",
     personal: "Personal Skills",
-    extra: "Extra "
+    extra: "Extra ",
+    extras: "Extras",
   };
   const resumeRef = useRef();
 
@@ -79,6 +80,11 @@ function Body() {
     [sections.extra]: {
       id: sections.extra,
       sectionTitle: sections.extra,
+      detail: "",
+    },
+    [sections.extras]: {
+      id: sections.extras,
+      sectionTitle: sections.extras,
       detail: "",
     },
   });

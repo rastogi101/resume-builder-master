@@ -379,7 +379,18 @@ function Editor(props) {
       />
     </div>
   );
-
+  const extrasBody = (
+    <div className={styles.detail}>
+      <InputControl
+        label="Extras"
+        value={values.extras}
+        placeholder="Enter your Extra Add-on things"
+        onChange={(event) =>
+          setValues((prev) => ({ ...prev, extras: event.target.value }))
+        }
+      />
+    </div>
+  );
   const generateBody = () => {
     switch (sections[activeSectionKey]) {
       case sections.basicInfo:
@@ -404,6 +415,8 @@ function Editor(props) {
         return personalBody;
         case sections.extra:
           return extraBody;
+          case sections.extras:
+            return extrasBody;
       default:
         return null;
     }
@@ -580,6 +593,19 @@ function Editor(props) {
           ...prev,
           [sections.extra]: {
             ...prev[sections.extra],
+            detail: tempDetail,
+            sectionTitle,
+          },
+        }));
+        break;
+      }
+      case sections.extras: {
+        const tempDetail = values.extras;
+
+        props.setInformation((prev) => ({
+          ...prev,
+          [sections.extras]: {
+            ...prev[sections.extras],
             detail: tempDetail,
             sectionTitle,
           },
